@@ -1,0 +1,59 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: rgb(255, 255, 255); /* Color blanco para el texto */
+    background-image: url('../img/fondo.png');
+    background-repeat: no-repeat; /* Para evitar que la imagen se repita */
+  background-size: cover; /* Para que la imagen cubra todo el elemento */
+  background-attachment: fixed; /* La imagen se queda fija al hacer scroll */
+
+
+}
+h1, h2, h3, h4, h5, h6 {
+    color: rgb(255, 255, 255); /* Color blanco para todos los encabezados */
+    text-align: center; /* Centrar los encabezados */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Sombra para mejorar la legibilidad */
+}
+
+/* Centra el contenedor y lo hace responsive */
+.container {
+    box-sizing: border-box;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.1); /* Blanco semi-transparente (50% opaco) */
+    max-width: 1200px; /* ancho máximo del contenedor */
+    margin: 0 auto;    /* centra horizontalmente */
+    padding: 0 1rem;   /* espacio lateral para "respiración" en móviles */
+}
+
+/* Utilidad opcional: centrar contenido vertical y horizontal */
+.container--centered {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* Para todos los enlaces */
+a {
+     text-decoration: none; /* Quita el subrayado */
+  color: rgb(255, 255, 255); /* Texto de todos los enlaces en azul */
+}
+
+
+
+/* Estado al pasar el ratón por encima (hover) */
+a:hover {
+  color: rgb(207, 96, 96); /* Texto rojo al pasar el ratón */
+}
+
+li {
+  list-style-type: none;
+}
+/* Enlace visitado */
+/*a:visited {*/
+  /*color: rgb(222, 233, 65); *//* Color para enlaces ya visitados */
+/*}*/
+
+/* Ajustes para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    .container { padding: 0 0.75rem; }
+}
