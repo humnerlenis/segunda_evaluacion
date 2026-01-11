@@ -982,7 +982,7 @@ async function libro() {
   const ancho = 152.4; // mm
   const espesor = 50; // mm
   const E = 0.52; // mm 
-  let area = largo * (ancho * 2)+50; // área cuando el libro está abierto
+  let area = parseFloat(largo) * ((parseFloat(ancho) * 2)+50); // área cuando el libro está abierto
   let numeroHojas = (espesor - 20) / E; // espesor de las cubiertas es 0.2 dm = 20 mm
   Swal.fire("El área que ocupa el libro cuando está abierto es: " + area + " mm². \n El número de hojas contenidas en el libro es: " + Math.floor(numeroHojas) + " hojas.","","success");
 
@@ -1046,7 +1046,7 @@ contenedor.addEventListener('click', function(evento) {
 
     break;
     case "libro":
-      alert("Has hecho clic en el elemento con ID: " + elementoClickeado + ".");
+      libro();
 
     break;
   
