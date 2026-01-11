@@ -183,7 +183,7 @@ boton.addEventListener('click', calcularIMC);
  async function voltaje() {
 
       const { value: resistencia } =  await Swal.fire({
-            title: "Cálculo del voltaje en un circuito eléctrico",
+            title: "Cálculo del voltaje \n en un circuito eléctrico",
             input: "number",
             inputLabel: "Ingrese el valor de la resistencia en ohmios",        
             showCancelButton: false,
@@ -414,6 +414,8 @@ function promedio2() {
   });
 }
 
+  
+
 async function trabajoMecanico() {
   const { value: fuerza } = await Swal.fire({
     title: "Cálculo de trabajo mecánico",
@@ -541,9 +543,454 @@ function miFuncion(elemento) {
 // #################### fin metodo con funcion en el evento onclick ########################
 
 
-//#######################################################################
+//##################################### metodo capturando el evento click ##################################
+
+async function presupuestoHospital() {
+
+  const { value: presupuestoNeto }  =  await Swal.fire({
+        title: "Ingrese el presupuesto neto del hospital",
+        input: "number",
+        inputLabel: "Presupuesto",        
+        showCancelButton: false,
+        inputValidator: (value) => {
+          if (!value) {
+            return "Debe ingresar el monto del presupuesto!";
+          }
+          if (value <= 0) {
+            return "El presupuesto debe ser mayor a cero!";
+          }
+        }
+  });
+
+  const { value: porcentajeGinecologia }  =  await Swal.fire({
+        title: "Ingrese el porcentaje de presupuesto para ginecología",
+        input: "number",
+        inputLabel: "Porcentaje",        
+        showCancelButton: false,
+        inputValidator: (value) => {
+          if (!value) {
+            return "Debe ingresar el porcentaje!";
+          }
+          if (value < 0 || value > 100) {
+            return "El porcentaje debe estar entre 0 y 100!";
+          }
+        }
+  });
+
+  const { value: porcentajeTraumatlogia }  =  await Swal.fire({
+        title: "Ingrese el porcentaje de presupuesto para traumatología",
+        input: "number",
+        inputLabel: "Porcentaje",        
+        showCancelButton: false,
+        inputValidator: (value) => {
+          if (!value) {
+            return "Debe ingresar el porcentaje!";
+          }
+          if (value < 0 || value > 100) {
+            return "El porcentaje debe estar entre 0 y 100!";
+          }
+          if (parseFloat(porcentajeGinecologia) + parseFloat(value) > 100) {
+            return "La suma de los porcentajes de ginecología y traumatología no puede exceder 100%! \n Disponible: " + (100 - parseFloat(porcentajeGinecologia)) + "%";
+          }
+        }
+  });
+
+  const { value: porcentajePediatria }  =  await Swal.fire({
+        title: "Ingrese el porcentaje de presupuesto para pediatría",
+        input: "number",
+        inputLabel: "Porcentaje",        
+        showCancelButton: false,
+        inputValidator: (value) => {
+          if (!value) {
+            return "Debe ingresar el porcentaje!";
+          }
+          if (value < 0 || value > 100) {
+            return "El porcentaje debe estar entre 0 y 100!";
+          }
+          if (parseFloat(porcentajeGinecologia) + parseFloat(porcentajeTraumatlogia) + parseFloat(value) !== 100) {
+            return "La suma de los porcentajes debe ser igual a 100%! \n Disponible para pediatría: " + (100 - parseFloat(porcentajeGinecologia) - parseFloat(porcentajeTraumatlogia)) + "%";
+          }
+        }
+  });
+
+  let montoGinecologia = (presupuestoNeto * porcentajeGinecologia) / 100;
+  let montoTraumatlogia = (presupuestoNeto * porcentajeTraumatlogia) / 100;
+  let montoPediatria = (presupuestoNeto * porcentajePediatria) / 100;
+  Swal.fire("Distribución del presupuesto: \n Ginecología: " + montoGinecologia + "\n Traumatología: " + montoTraumatlogia + "\n Pediatría: " + montoPediatria + ".","","success");
+}
+
+async function frecuencuaDeOnda() {
+  const { value: tiempo } =  await Swal.fire({
+        title: "Cálculo de la frecuencia de una onda",
+        input: "number",
+        inputLabel: "Ingrese el tiempo en segundos",
+        showCancelButton: false,
+        inputValidator: (value) => {
+            if (!value) {
+            return "Debe ingresar el valor!";
+            }
+            if (value <= 0) {
+              return "El tiempo debe ser mayor a cero!";
+            }
+        }
+  });
+
+  let frecuencia = 1 / parseFloat(tiempo);
+  Swal.fire("La frecuencia de la onda es: " + frecuencia + " Hz.","","success");
+  
+}
+
+async function potenciaDeCircuito() {
+  const { value: voltaje } = await Swal.fire({
+        title: "Cálculo de la potencia de un circuito",
+        input: "number",
+        inputLabel: "Ingrese el voltaje en volts",
+        showCancelButton: false,
+        inputValidator: (value) => {
+            if (!value) {
+            return "Debe ingresar el valor!";
+            }
+            if (value <= 0) {
+              return "El voltaje debe ser mayor a cero!";
+            }
+        }
+  });
+
+  const { value: corriente } = await Swal.fire({
+        title: "Cálculo de la potencia de un circuito",
+        input: "number",
+        inputLabel: "Ingrese la intensidad de la corriente en amperes",
+        showCancelButton: false,
+        inputValidator: (value) => {
+            if (!value) {
+            return "Debe ingresar el valor!";
+            }
+            if (value <= 0) {
+              return "La corriente debe ser mayor a cero!";
+            }
+        }
+  });
+
+  let potencia = parseFloat(voltaje) * parseFloat(corriente);
+  Swal.fire("La potencia del circuito es: " + potencia + " watts.","","success");
+}
+
+async function gastoCine() {
+  const { value: precioEntrada } = await Swal.fire({
+        title: "Cálculo del gasto total en un cine",
+        input: "number",
+        inputLabel: "Ingrese el precio de la entrada en pesos",
+        showCancelButton: false,
+        inputValidator: (value) => {
+            if (!value) {
+                return "Debe ingresar el valor!";
+            }
+            if (value <= 0) {
+                return "El precio debe ser mayor a cero!";
+            }
+        }
+  });
+
+  const { value: numeroPersonas } = await Swal.fire({
+        title: "Cálculo del gasto total en un cine",
+        input: "number",
+        inputLabel: "Ingrese el número de personas",
+        showCancelButton: false,
+        inputValidator: (value) => {
+            if (!value) {
+                return "Debe ingresar el valor!";
+            }
+            if (value <= 0) {
+                return "El número de personas debe ser mayor a cero!";
+            }
+        }
+  });
+
+  let gastoTotal = parseInt(numeroPersonas) * parseFloat(precioEntrada);
+  Swal.fire("El gasto total en el cine es: " + gastoTotal + " Bs.","","success");
+}
+
+async function cantoDelGrillo() {
+  const { value: cantos } = await Swal.fire({
+        title: "Cálculo del canto de un grillo",
+        input: "number",
+        inputLabel: "Ingrese la temperatura en grados Celsius",
+        showCancelButton: false,
+        inputValidator: (value) => {
+            if (!value) {
+                return "Debe ingresar el valor!";
+            }
+            if (value < 0) {
+                return "La temperatura debe ser mayor o igual a cero!";
+            }
+        }
+  });
+
+  let temperaturaenFahrenheit =  (parseInt(cantos)/4) + 40;
+  let temperaturaenCelsius = (temperaturaenFahrenheit - 32) / 1.8;
+  let temperatura = temperaturaenCelsius.toFixed(2);
+  Swal.fire("La temperatura es: " + temperatura + "°C.","","success");
+}
+async function gasolinera() {
+  const { value: estacionSurtidora } = await Swal.fire({
+        title: "Cálculo del gasto total en una gasolinera",
+        input: "number",
+        inputLabel: "Ingrese el numero de la estación surtidora",
+        showCancelButton: false,
+        inputValidator: (value) => {
+            if (!value) {
+                return "Debe ingresar el numero de la estación!";
+            }
+            if (value <= 0) {
+                return "El numero de la estación debe ser mayor a cero!";
+            }
+        }
+  });
+
+  const { value: precio } = await Swal.fire({
+        title: "Cálculo del gasto total en una gasolinera",
+        input: "number",
+        inputLabel: "Ingrese el precio de la gasolina en bs/litro",
+        showCancelButton: false,
+        inputValidator: (value) => {
+            if (!value) {
+                return "Debe ingresar el valor!";
+            }
+            if (value <= 0) {
+                return "El precio debe ser mayor a cero!";
+            }
+        }
+  });
+
+  const { value: galonesSurtidos } = await Swal.fire({
+        title: "Cálculo del gasto total en una gasolinera",
+        input: "number",
+        inputLabel: "Ingrese la cantidad de galones surtidos",
+        showCancelButton: false,
+        inputValidator: (value) => {
+            if (!value) {
+                return "Debe ingresar el valor!";
+            }
+            if (value <= 0) {
+                return "La cantidad de litros debe ser mayor a cero!";
+            }
+        }
+  });
+let litros = parseFloat(galonesSurtidos) * 3.78541; // Convertir galones a litros
+  let gastoTotal = parseFloat(precio) * parseFloat(litros);
+  Swal.fire("El monto a cobrar es: " + gastoTotal.toFixed(2) + " Bs. \n Por la cantidad de "+ litros.toFixed(2) +" Litros. \n En la estación surtidora " + estacionSurtidora,"","success");
+}
+
+async function elefante() {
+ const { value: nombreElefante } = await Swal.fire({
+      title: "Cálculo del peso de un elefante",
+      input: "text",
+      inputLabel: "Ingrese el nombre del elefante",
+      showCancelButton: false,
+      inputValidator: (value) => {
+          if (!value) {
+              return "Debe ingresar el nombre!";
+          }
+      } 
+  });
+  const { value: alturaElefante } = await Swal.fire({
+        title: "Cálculo del peso de un elefante",
+        input: "number",
+        inputLabel: "Ingrese la altura del elefante en pies",
+        showCancelButton: false,
+        inputValidator: (value) => {
+            if (!value) {
+                return "Debe ingresar la altura!";
+            }
+            if (value <= 0) {
+                return "La altura debe ser mayor a cero!";
+            }
+        }
+  });
+
+  const { value: pesoElefante } = await Swal.fire({
+        title: "Cálculo del peso de un elefante",
+        input: "number",
+        inputLabel: "Ingrese el peso del elefante en toneladas",
+        showCancelButton: false,
+        inputValidator: (value) => {
+            if (!value) {
+                return "Debe ingresar el peso!";
+            }
+            if (value <= 0) {
+                return "El peso debe ser mayor a cero!";
+            }
+        }
+  });
+
+  let alturaEnMetros = parseFloat(alturaElefante) * 0.30472;
+  let pesoEnKilogramos = parseFloat(pesoElefante) * 1000;
+
+  Swal.fire("El elefante llamado " + nombreElefante.toUpperCase() + " \n tiene un peso de " + pesoEnKilogramos.toFixed(2) + " kg. \ny una altura de " + alturaEnMetros.toFixed(2) + " metros.","","success");
+}
+
+// Calcula la velocidad en km/h dada la duración en minutos, segundos y centésimas y la distancia en metros
+  function olimpiada() {
+    let distanciaMetros = 10000; // Distancia fija de 10000 metros
+Swal.fire({
+    title: 'Ingresa el tiempo del patinador',
+    html: `
+    <label for="minutos">Minutos:</label>
+    <input type="number" id="minutos" class="swal2-input" required>
+    <label for="segundos">Segundos:</label>
+    <input type="number" id="segundos" class="swal2-input" required>
+    <label for="centesimas">Centésimas:</label>
+    <input type="number" id="centesimas" class="swal2-input" required>
+  `,
+    focusConfirm: false, // Para enfocar el primer input
+    preConfirm: () => {
+    
+      const tiempo = {};
+     
+        if (document.getElementById(`minutos`).value === '' || document.getElementById(`minutos`).value === null || document.getElementById(`minutos`).value < 0) {
+          tiempo[`minutos`] = 0;
+          
+        } else {
+          tiempo[`minutos`] = document.getElementById(`minutos`).value;
+          
+        }
+        if (document.getElementById(`segundos`).value === '' || document.getElementById(`segundos`).value === null || document.getElementById(`segundos`).value < 0) {
+          tiempo[`segundos`] = 0;
+          
+        } else {
+          tiempo[`segundos`] = document.getElementById(`segundos`).value;
+          
+        }
+        if (document.getElementById(`centesimas`).value === '' || document.getElementById(`centesimas`).value === null || document.getElementById(`centesimas`).value < 0) {
+          tiempo[`centesimas`] = 0;
+          
+        } else {
+          tiempo[`centesimas`] = document.getElementById(`centesimas`).value;
+          
+        }
+       
+      
+       return tiempo;
+    }
+  }).then((result) => {
+    if (result.isConfirmed) {
+      
+      const { minutos, segundos, centesimas } = result.value; // Desestructura los valores
+
+     // let totalSegundos = (parseInt(minutos) * 60) + parseInt(segundos) + (parseInt(centesimas) / 100);
+      // console.log(minutos);
+      // console.log(segundos);
+      // console.log(centesimas);
+      const totalSegundos = (parseInt(minutos) * 60) + parseInt(segundos) + (parseInt(centesimas) / 100);
+    const kilometros = distanciaMetros / 1000;
+    //console.log(totalSegundos);
+    const horas = totalSegundos / 3600;
+    //console.log(horas);
+    const velocidad = kilometros / horas;
+      Swal.fire('¡Carrera de 10000 metros!', `La velocidad del patinador ganador es ${velocidad.toFixed(2)} km/h.`, 'success');
+    }
+  });
+
+
+    
+  }
+
+ async function contadoraDeBilletes() {
+  const N = 81000;
+  const { value: T } =  await Swal.fire({
+        title: "Cálculo de billetes contados por una máquina",
+        input: "number",
+        inputLabel: "Ingrese el tiempo en minutos",
+        showCancelButton: false,
+        inputValidator: (value) => {
+            if (!value) {
+            return "Debe ingresar el valor!";
+            }
+            if (value <= 0) {
+              return "El tiempo debe ser mayor a cero!";
+            }
+        }
+  });
+
+
+  const billetesPorMinuto = parseInt(N) / 90; // 1.5 horas = 90 minutos
+  const billetesContados = billetesPorMinuto * parseFloat(T);
+
+  Swal.fire("La máquina cuenta " + billetesContados + " billetes en " + T + " minuto(s).", "", "success");
+}
+
+async function chute() {
+  const A = 2.44; // altura del arco (m)
+  const V = 31.11; // velocidad (m/s)
+  const T_min = 0.02; // tiempo (min)
+
+  const T_seg = T_min * 60;
+  const distanciaPerpendicular = V * T_seg;
+  const distanciaAlPoste = Math.sqrt(distanciaPerpendicular * distanciaPerpendicular + A * A); // se calcula la hipotenusa y obtiene la distancia al poste
+
+  Swal.fire(
+    'Cálculo del chute',
+    `a) Distancia perpendicular al arco: ${distanciaPerpendicular.toFixed(3)} m\nb) Distancia hasta el poste horizontal: ${distanciaAlPoste.toFixed(3)} m`,
+    'success'
+  );
+  
+}
+
+async function impresora() {
+
+let hojasporMinutos=38;
+  const { value: horas } =  await Swal.fire({
+        title: "Cálculo de hojas impresas por una impresora",
+        input: "number",
+        inputLabel: "Ingrese el tiempo en horas",
+        showCancelButton: false,
+        inputValidator: (value) => {
+            if (!value) {
+            return "Debe ingresar el valor!";
+            }
+            if (value <= 0) {
+              return "El tiempo debe ser mayor a cero!";
+            } 
+        }
+  });  
+  
+
+  const { value: porcentaje } =  await Swal.fire({
+        title: "Cálculo de letras imprimibles por una impresora",
+        input: "number",
+        inputLabel: "Ingrese el porcentaje de tinta restante en el cartucho",
+        showCancelButton: false,
+        inputValidator: (value) => {
+            if (!value) {
+            return "Debe ingresar el valor!";
+            }
+            if (value < 0 || value > 100) {
+              return "El porcentaje debe estar entre 0 y 100!";
+            }
+        }
+  });
+  let hojasImpresas= Math.floor(hojasporMinutos * horas * 60);
+  let capacidadCartucho=5; //ml
+  let tintaRestante=(capacidadCartucho * porcentaje)/100;
+  let letrasImprimibles= tintaRestante / 0.00001;
+  Swal.fire("La impresora imprimirá " + hojasImpresas + " hojas en " + horas + " hora(s). \n Y podrá imprimir " + Math.floor(letrasImprimibles) + " letras más con el cartucho restante.","","success");
+}
+
+async function libro() {
+
+  const largo = 228.6; // mm
+  const ancho = 152.4; // mm
+  const espesor = 50; // mm
+  const E = 0.52; // mm 
+  let area = largo * (ancho * 2)+50; // área cuando el libro está abierto
+  let numeroHojas = (espesor - 20) / E; // espesor de las cubiertas es 0.2 dm = 20 mm
+  Swal.fire("El área que ocupa el libro cuando está abierto es: " + area + " mm². \n El número de hojas contenidas en el libro es: " + Math.floor(numeroHojas) + " hojas.","","success");
+
+}
+
+
 // 1. Seleccionamos un elemento contenedor (o el documento entero)
-const contenedor = document.getElementById('segundaGuia'); // O document.querySelector('.mi-contenedor');
+const contenedor = document.getElementById('segundaGuia'); 
 
 // 2. Añadimos UN solo addEventListener a ese contenedor
 contenedor.addEventListener('click', function(evento) {
@@ -553,51 +1000,49 @@ contenedor.addEventListener('click', function(evento) {
    
    switch (elementoClickeado) {
     case "presupuestoHospital":
-      alert("Has hecho clic en el elemento con ID: " + elementoClickeado + ".");
+     presupuestoHospital();
 
     break;
     case "voltajeDeCircuito":
-      alert("Has hecho clic en el elemento con ID: " + elementoClickeado + ".");
+      voltaje();
 
     break;
     case "frecuenciaDeOnda":
-      alert("Has hecho clic en el elemento con ID: " + elementoClickeado + ".");
+      frecuencuaDeOnda();
 
     break;
     case "potenciaDeCircuito":
-      alert("Has hecho clic en el elemento con ID: " + elementoClickeado + ".");
+      potenciaDeCircuito();
 
     break;
     case "gastoCine":
-      alert("Has hecho clic en el elemento con ID: " + elementoClickeado + ".");
+      gastoCine();
 
     break;
     case "temperatura":
-      alert("Has hecho clic en el elemento con ID: " + elementoClickeado + ".");
-
+      cantoDelGrillo();
     break;
     case "gasolinera":
-      alert("Has hecho clic en el elemento con ID: " + elementoClickeado + ".");
+      gasolinera();
 
     break;
     case "elefante":
-      alert("Has hecho clic en el elemento con ID: " + elementoClickeado + ".");
+      elefante();
 
     break;
     case "competenciaDePatinaje":
-      alert("Has hecho clic en el elemento con ID: " + elementoClickeado + ".");
-
+      olimpiada();
     break;
     case "contadoraDeBilletes":
-      alert("Has hecho clic en el elemento con ID: " + elementoClickeado + ".");
+      contadoraDeBilletes();
 
     break;
     case "chute":
-      alert("Has hecho clic en el elemento con ID: " + elementoClickeado + ".");
+      chute();
 
     break;
     case "impresora":
-      alert("Has hecho clic en el elemento con ID: " + elementoClickeado + ".");
+      impresora();
 
     break;
     case "libro":
